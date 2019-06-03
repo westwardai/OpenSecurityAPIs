@@ -1,0 +1,180 @@
+openapi: 3.0.1
+info:
+  title: Virus Total Public
+  description: An api description for the public Virus Total API
+  version: 2.0.0
+servers:
+- url: https://www.virustotal.com/vtapi/v2
+paths:
+  /file/scan:
+    post:
+      summary: Submit a file for upload to virus total
+      parameters:
+      - name: apikey
+        in: query
+        description: The virus total API key
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  type: string
+                  description: the file to upload to virus total
+                  format: binary
+      responses:
+        200:
+          description: file uploaded successfully
+          content: {}
+  /file/rescan:
+    post:
+      summary: Rescan files in VirusTotal's file store
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: resource
+        in: query
+        description:  md5/sha1/sha256 hash. You can also specify a CSV list made up of a combination of any of the three allowed hashes (up to 25 items), this allows you to perform a batch request with one single call. Note that the file must already be present in our file store.
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: rescan initiated
+          content: {}
+  /file/report:
+    post:
+      summary: retrieve a scan report
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: resource
+        in: query
+        description: a md5/sha1/sha256 hash will retrieve the most recent report on a given sample. You may also specify a scan_id (sha256-timestamp as returned by the file upload API) to access a specific report. You can also specify a CSV list made up of a combination of hashes and scan_ids (up to 4 items with the standard request rate), this allows you to perform a batch request with one single call.
+        required: true
+        schema:
+          type: string
+      responses:
+          200:
+            description: report retrieved
+            content: {}
+  /url/scan:
+    post:
+      summary: submit URL for scanning
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: url
+        in: query
+        description: The URL that should be scanned. This parameter accepts a list of URLs (up to 4 with the standard request rate) so as to perform a batch scanning request with one single call. The URLs must be separated by a new line character.
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: url submitted for scanning
+          content: {} 
+  /url/report:
+    post:
+      summary: retrieve a scan report on a given URL
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: resource
+        in: query
+        description:  a URL will retrieve the most recent report on the given URL. You may also specify a scan_id (sha256-timestamp as returned by the URL submission API) to access a specific report. At the same time, you can specify a CSV list made up of a combination of hashes and scan_ids so as to perform a batch request with one single call (up to 4 resources per call with the standard request rate). When sending multiples, the scan_ids or URLs must be separated by a new line character.
+        required: true
+        schema:
+          type: string
+      - name: scan
+        in: query
+        description: this is an optional parameter that when set to "1" will automatically submit the URL for analysis if no report is found for it in VirusTotal's database. In this case the result will contain a scan_id field that can be used to query the analysis report later on.
+        schema:
+          type: string
+      responses:
+        200:
+          description: url submitted for scanning
+          content: {}
+  /ip-address/report:
+    get:
+      summary: retrieve a report on a given IP address
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: ip
+        in: query
+        description: a valid IPv4 address in dotted quad notation, for the time being only IPv4 addresses are supported.
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: retrieved IP report
+  /domain/report:
+    get:
+      summary: retrieve a report on a given domain
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: domain
+        in: query
+        description: a domain name
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: retrieved domain account
+  /comments/put:
+    post:
+      summary: make comments on files and URLs
+      parameters:
+      - name: apikey
+        in: query
+        description: The Virus Total API key
+        required: true
+        schema:
+          type: string
+      - name: resource
+        in: query
+        description: either a md5/sha1/sha256 hash of the file you want to review or the URL itself that you want to comment on.
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: the actual review, you can tag it using the "#" twitter-like syntax (e.g. #disinfection #zbot) and reference users using the "@" syntax (e.g. @VirusTotalTeam).
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: comment made
+components: {}
+
