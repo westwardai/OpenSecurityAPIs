@@ -24,3 +24,4 @@ A list of APIs that we'd like to support (please add your wishlist):
 * TheHive
 * ThreatConnect
 * Recorded Future
+* LaikaBoss
