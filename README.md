@@ -25,3 +25,4 @@ A list of APIs that we'd like to support (please add your wishlist):
 * ThreatConnect
 * Recorded Future
 * LaikaBoss
+* Cuckoo
