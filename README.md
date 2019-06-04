@@ -7,6 +7,7 @@ Short Term TODO:
 * ask for help from community and vendors
 * figure out how to map API endpoints to [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) [Common Information Model](https://github.com/Cyb3rWard0g/OSSEM/tree/master/common_information_model)
 * build enrichment server automatically
+* migrate this repo away from a company github organization
 
 
 A list of APIs that we'd like to support (please add your wishlist):
